@@ -1,17 +1,16 @@
-import Transaction from "./Transaction";
+import { Transaction } from "./Transaction";
 
 const BASIC_REWARD = 100;
 const REWARD_RATE = 0.02;
 
-export default class Block {
+export class Block {
   private _header:BlockHeader;
   private _body:BlockBody;
   private _hash:string;
 
-  constructor(version:number, previous_block_hash:string, bits:number, maker:string, hash:string){
+  constructor(version:number, previous_block_hash:string, bits:number, maker:string){
     this._header = new BlockHeader(version, previous_block_hash, bits);
     this._body = new BlockBody(maker);
-    this._hash = hash;
   }
 
   set header_merklehash(merklehash:string){
@@ -35,7 +34,7 @@ export default class Block {
   }
 }
 
-class BlockHeader {
+export class BlockHeader {
   private _version:string;
   private _previous_block_hash:string;
   private _merklehash:string;
@@ -60,12 +59,12 @@ class BlockHeader {
   set nonce(nonce:number){
     this._nonce = nonce;
   }
-  calculate_merklehash():string{
+  static calculate_merklehash(transactions:Transaction[]):string{
     return "new merkle hash"
   }
 }
 
-class BlockBody {
+export class BlockBody {
   static max_transaction_count:number = 10;
 
   private _transactions:Transaction[];
@@ -101,13 +100,11 @@ class BlockBody {
   push_transaction(){
     // calculate fee
     // coinbase transaction
+    this._pending_transactions = [];
+    this._pending_trasactions_count = 0;
     this._transactions = [
       new Transaction(0, "network", this._maker, 111),
       ...this._pending_transactions,
     ]
-  }
-
-  calculate_merkle_hash():string{
-    return "some hash";
   }
 }

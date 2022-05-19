@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    // "types": [],
+    "target": "es5"
+  }
+}

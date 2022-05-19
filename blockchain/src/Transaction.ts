@@ -1,4 +1,4 @@
-export default class Transaction {
+export class Transaction {
   private version: number;
   private sender: string;
   private recipient: string;
